@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATS Resume Scorer - Analyze Your Resume</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 ATS Resume Scorer</h1>
+            <p class="subtitle">Analyze your resume against job descriptions and improve your ATS compatibility</p>
+        </header>
+
+        <main>
+            <div class="upload-section">
+                <form id="analyzeForm" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="resume">Upload Resume (PDF or DOCX)</label>
+                        <div class="file-upload-wrapper">
+                            <input type="file" id="resume" name="resume" accept=".pdf,.docx,.doc" required>
+                            <div class="file-upload-label">
+                                <span class="file-icon">📄</span>
+                                <span class="file-text">Choose file or drag and drop</span>
+                                <span class="file-size">Max 16MB</span>
+                            </div>
+                        </div>
+                        <div id="fileName" class="file-name"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="jobDescription">Job Description</label>
+                        <textarea 
+                            id="jobDescription" 
+                            name="job_description" 
+                            rows="10" 
+                            placeholder="Paste the job description here...&#10;&#10;Example:&#10;Software Engineer - Full Stack Developer&#10;&#10;Required Skills:&#10;- Python&#10;- JavaScript&#10;- React&#10;- Node.js"
+                            required
+                        ></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-primary" id="analyzeBtn">
+                        <span class="btn-text">Analyze Resume</span>
+                        <span class="btn-loader" style="display: none;">
+                            <span class="spinner"></span> Analyzing...
+                        </span>
+                    </button>
+                </form>
+            </div>
+
+            <div id="results" class="results-section" style="display: none;">
+                <div class="score-card">
+                    <div class="score-header">
+                        <h2>Your ATS Score</h2>
+                        <div class="overall-score">
+                            <span class="score-value" id="overallScore">0</span>
+                            <span class="score-total">/100</span>
+                        </div>
+                    </div>
+                    <div class="score-bar-container">
+                        <div class="score-bar" id="scoreBar">
+                            <div class="score-fill" id="scoreFill"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-scores">
+                    <div class="component-card">
+                        <div class="component-icon">💼</div>
+                        <div class="component-info">
+                            <h3>Skills Match</h3>
+                            <div class="component-score" id="skillsScore">0/100</div>
+                        </div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">🔑</div>
+                        <div class="component-info">
+                            <h3>Keywords Match</h3>
+                            <div class="component-score" id="keywordsScore">0/100</div>
+                        </div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">📈</div>
+                        <div class="component-info">
+                            <h3>Experience Match</h3>
+                            <div class="component-score" id="experienceScore">0/100</div>
+                        </div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-icon">🎓</div>
+                        <div class="component-info">
+                            <h3>Education Match</h3>
+                            <div class="component-score" id="educationScore">0/100</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="details-section">
+                    <div class="detail-card matched-skills">
+                        <h3>✅ Matched Skills</h3>
+                        <div class="skills-list" id="matchedSkills"></div>
+                    </div>
+
+                    <div class="detail-card missing-skills">
+                        <h3>❌ Missing Skills</h3>
+                        <div class="skills-list" id="missingSkills"></div>
+                    </div>
+                </div>
+
+                <div class="detail-card strengths">
+                    <h3>💪 Strengths</h3>
+                    <ul id="strengthsList"></ul>
+                </div>
+
+                <div class="detail-card suggestions">
+                    <h3>💡 Improvement Suggestions</h3>
+                    <ol id="suggestionsList"></ol>
+                </div>
+
+                <button class="btn-secondary" onclick="resetForm()">Analyze Another Resume</button>
+            </div>
+
+            <div id="error" class="error-message" style="display: none;"></div>
+        </main>
+
+        <footer>
+            <p>Powered by ATS Resume Scorer | Built with Flask & Python</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
+
+
